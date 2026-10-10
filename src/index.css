@@ -179,3 +179,12 @@ h1{font-size:clamp(2.4rem,6vw,5.8rem)}
 .ask-b.bot,.ask-chip,.ask-form input{background:var(--box);color:var(--box-fg);border-color:var(--box-fg)}
 .ask-form{border-top-color:var(--box-fg)}
 @media(max-width:760px){.team img,.photo{border-top-color:var(--box-line)}}
+
+/* medium zoom, and the top boxes follow the theme too */
+@media(min-width:1100px){.events,.team,.faqs,.footer{zoom:1.1}}
+.pill.blue{--pc:#3b82f6}.pill.red{--pc:#ea4335}.pill.yellow{--pc:#fbbc04}.pill.green{--pc:#16a34a}.pill.purple{--pc:#6366f1}
+[data-theme] .nav .pill{background:var(--box);color:var(--box-fg);border:2px solid var(--box-line);box-shadow:4px 4px 0 var(--pc)}
+[data-theme] .nav .pill:hover{box-shadow:2px 2px 0 var(--pc)}
+.upill{background:var(--box);color:var(--box-fg);border-color:var(--box-line)}
+.hero .btn{background:var(--box);color:var(--box-fg);border-color:var(--box-line);box-shadow:5px 5px 0 var(--box-shadow)}
+.hero .btn:hover{box-shadow:2px 2px 0 var(--box-shadow)}
