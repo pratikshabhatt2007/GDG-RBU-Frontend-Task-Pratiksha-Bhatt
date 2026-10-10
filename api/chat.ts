@@ -1,6 +1,6 @@
 // Vercel serverless function: POST /api/chat  { messages: [{ role, content }] }
 // Needs the GEMINI_API_KEY environment variable (set in Vercel, never in code).
-const MODEL = process.env.GEMINI_MODEL || "gemini-flash-latest";
+const MODELS = [process.env.GEMINI_MODEL, "gemini-flash-latest", "gemini-3.5-flash", "gemini-3-flash-preview", "gemini-2.5-flash"].filter(Boolean) as string[];
 
 const FACTS = `You are "Ask GDG", the assistant on the website of Google Developer Groups (GDG) on Campus, Ramdeobaba University (RBU), Nagpur.
 Answer ONLY from the facts below. Keep answers short (1-4 sentences), friendly and in plain text.
@@ -36,21 +36,30 @@ export default async function handler(req: any, res: any) {
   if (!contents.length || contents[contents.length - 1].role !== "user")
     return res.status(400).json({ error: "Send a question." });
 
-  try {
-    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-goog-api-key": key },
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: FACTS }] },
-        contents,
-        generationConfig: { maxOutputTokens: 400, temperature: 0.3 },
-      }),
-    });
-    const data: any = await r.json();
-    if (!r.ok) return res.status(502).json({ error: "The assistant is unavailable right now." });
-    const text = (data.candidates?.[0]?.content?.parts || []).map((p: any) => p.text || "").join("").trim();
-    return res.status(200).json({ reply: text || "Sorry, I could not answer that. Please email gdso@rknec.edu." });
-  } catch {
-    return res.status(502).json({ error: "The assistant is unavailable right now." });
+  const body = JSON.stringify({
+    systemInstruction: { parts: [{ text: FACTS }] },
+    contents,
+    generationConfig: { maxOutputTokens: 400, temperature: 0.3 },
+  });
+  // Try each model name until one works; real errors go to the Vercel logs only.
+  for (const model of MODELS) {
+    try {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-goog-api-key": key },
+        body,
+      });
+      const data: any = await r.json();
+      if (r.ok) {
+        const text = (data.candidates?.[0]?.content?.parts || []).map((p: any) => p.text || "").join("").trim();
+        return res.status(200).json({ reply: text || "Sorry, I could not answer that. Please email gdso@rknec.edu." });
+      }
+      const msg = String(data?.error?.message || "").slice(0, 300);
+      console.error(`Gemini ${model} -> ${r.status}: ${msg}`);
+      if (/api key/i.test(msg)) break; // a bad key will fail for every model
+    } catch (e) {
+      console.error(`Gemini ${model} request failed`, e);
+    }
   }
+  return res.status(502).json({ error: "The assistant is unavailable right now." });
 }
