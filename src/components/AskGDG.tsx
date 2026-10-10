@@ -3,6 +3,13 @@ import { useEffect, useRef, useState } from "react";
 type Msg = { role: "user" | "assistant"; content: string };
 const SUGGESTIONS = ["How do I join GDG?", "When is the next event?", "How can I reach you?"];
 
+function linkify(text: string) {
+  return text.split(/(https?:\/\/\S+)/g).map((part, i) => {
+    const m = part.match(/^(https?:\/\/\S*?)([.,;:!?)]*)$/);
+    return m ? <span key={i}><a href={m[1]} target="_blank" rel="noopener noreferrer">{m[1]}</a>{m[2]}</span> : part;
+  });
+}
+
 export default function AskGDG() {
   const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState<Msg[]>([]);
@@ -45,7 +52,7 @@ export default function AskGDG() {
                 {SUGGESTIONS.map(s => <button key={s} className="ask-chip" onClick={() => send(s)}>{s}</button>)}
               </div>
             )}
-            {msgs.map((m, i) => <p key={i} className={`ask-b ${m.role === "user" ? "me" : "bot"}`}>{m.content}</p>)}
+            {msgs.map((m, i) => <p key={i} className={`ask-b ${m.role === "user" ? "me" : "bot"}`}>{linkify(m.content)}</p>)}
             {busy && <p className="ask-b bot">Thinking…</p>}
             <div ref={endRef} />
           </div>
