@@ -8,7 +8,12 @@ Frontend Web Developer task for the **GDG RBU Recruitment 2026–27**. A respons
 
 ## Screenshots
 
-> TODO: add screenshots here (desktop light, desktop dark, mobile) after running the site, e.g. `![Home – dark](docs/home-dark.png)`.
+### Desktop — Dark Mode
+
+![GDG RBU Website — Desktop Dark Mode](https://github.com/user-attachments/assets/07dc98b4-0d09-4db8-aaee-012bbfdcbe07)
+
+Desktop — Light Mode
+(https://github.com/user-attachments/assets/0173c5e5-d9cb-4e0e-b3dc-0a2df8da68cf) 
 
 ## Features
 
