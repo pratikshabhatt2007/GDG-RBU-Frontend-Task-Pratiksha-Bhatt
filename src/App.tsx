@@ -43,16 +43,15 @@ function Logo({ size = 40 }: { size?: number }) {
 function Header({ theme, toggle }: { theme: string; toggle: () => void }) {
   return (
     <header className="nav">
-      <a href="#home" aria-label="GDG RBU home"><Logo /></a>
+      <a href="#home" aria-label="GDG RBU home"><Logo size={64} /></a>
       <nav aria-label="Main"><ul>
         {NAV.map(([l, h, c]) => <li key={l}><a className={`pill ${c}`} href={h}>{l}</a></li>)}
       </ul></nav>
       <div className="user">
+        <span className="upill"><span className="avatar" aria-hidden="true">{USER_NAME[0]}</span><span className="uname">{USER_NAME}</span><span aria-hidden="true">⌄</span></span>
         <button className="theme" onClick={toggle} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}>
           {theme === "dark" ? "☀" : "☾"}
         </button>
-        <span className="avatar" aria-hidden="true">{USER_NAME[0]}</span>
-        <span className="uname">{USER_NAME}</span>
       </div>
     </header>
   );
@@ -72,7 +71,7 @@ function Hero() {
       </div>
       <div className="blob-wrap" data-parallax-layer="2">
           <div className="blob" aria-hidden="true">
-            <svg className="blob-shape" viewBox="0 0 311 217"><path d="M165 0H283A28 28 0 0 1 311 28V138A28 28 0 0 1 283 166H245A14 14 0 0 0 231 180V189A28 28 0 0 1 203 217H28A28 28 0 0 1 0 189V76A28 28 0 0 1 28 48H123A14 14 0 0 0 137 34V28A28 28 0 0 1 165 0Z" /></svg>
+            <svg className="blob-shape" viewBox="0 0 500 500"><path d="M259,0H430Q500,0 500,70V305Q500,375 430,375H368Q313,375 313,430Q313,500 243,500H70Q0,500 0,430V195Q0,125 70,125H134Q189,125 189,70Q189,0 259,0Z" /></svg>
             <span className="blob-pill"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#999" strokeWidth="1.5"><circle cx="5" cy="5" r="3.5" /><path d="M8 8l3 3" /></svg>gdgr</span>
           </div>
         </div>
