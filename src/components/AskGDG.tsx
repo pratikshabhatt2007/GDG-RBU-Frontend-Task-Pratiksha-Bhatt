@@ -32,9 +32,23 @@ export default function AskGDG() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: next.slice(-8) }),
       });
-      const data = await r.json();
-      const reply = r.ok ? data.reply : data.error || "Something went wrong.";
-      setMsgs([...next, { role: "assistant", content: reply }]);
+      if (!r.ok || !r.body) {
+        let err = "Something went wrong.";
+        try { err = (await r.json()).error || err; } catch { /* not JSON */ }
+        setMsgs([...next, { role: "assistant", content: err }]);
+        return;
+      }
+      // show the answer word by word as it streams in
+      const reader = r.body.getReader();
+      const dec = new TextDecoder();
+      let acc = "";
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += dec.decode(value, { stream: true });
+        setMsgs([...next, { role: "assistant", content: acc }]);
+      }
+      if (!acc) setMsgs([...next, { role: "assistant", content: "Sorry, I could not answer that. Please email gdso@rknec.edu." }]);
     } catch {
       setMsgs([...next, { role: "assistant", content: "Cannot reach the assistant. Please email gdso@rknec.edu." }]);
     } finally { setBusy(false); }
@@ -53,7 +67,7 @@ export default function AskGDG() {
               </div>
             )}
             {msgs.map((m, i) => <p key={i} className={`ask-b ${m.role === "user" ? "me" : "bot"}`}>{linkify(m.content)}</p>)}
-            {busy && <p className="ask-b bot">Thinking…</p>}
+            {busy && msgs[msgs.length - 1]?.role === "user" && <p className="ask-b bot">Thinking…</p>}
             <div ref={endRef} />
           </div>
           <form className="ask-form" onSubmit={e => { e.preventDefault(); send(input); }}>
