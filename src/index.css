@@ -118,3 +118,26 @@ h2{font-size:clamp(1.6rem,4vw,2.4rem)}
 [data-theme=dark] .blob-shape path{stroke:rgba(255,255,255,.55);stroke-width:2}
 .blob-pill{position:absolute;left:22%;top:45.5%;width:58%;min-height:20px;height:10.6%;display:flex;align-items:center;justify-content:center;gap:6px;background:#fff;color:#888;border-radius:99px;font:10px var(--mono)}
 .ask-b a{color:inherit;text-decoration:underline;word-break:break-all}
+
+/* larger, Figma-style nav and hero */
+.nav{padding:14px 9vw;border-bottom:2px solid var(--line);gap:24px}
+.nav nav ul{gap:18px}
+.pill{padding:10px 26px;font-size:18px;border-radius:10px;font-family:var(--sans)}
+[data-theme=dark] .pill{border-color:transparent;box-shadow:3px 3px 0 rgba(0,0,0,.55)}
+[data-theme=dark] .pill.blue{background:#3b82f6}[data-theme=dark] .pill.red{background:#ea4335}
+[data-theme=dark] .pill.green{background:#16a34a}[data-theme=dark] .pill.purple{background:#6366f1}
+.user{gap:12px;font-size:16px}
+.upill{display:flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;background:#fff;color:#000;border:2px solid var(--line);border-radius:999px;font-weight:700}
+.avatar{width:34px;height:34px;background:#3b82f6;color:#fff;font-size:16px}.uname{font-size:16px}
+.theme{width:46px;height:46px;border-radius:50%;border:0;background:var(--fg);color:var(--bg);font-size:20px}
+.hero{max-width:1500px;padding:9vh 8vw;gap:48px}
+h1{font-size:clamp(2.4rem,6vw,5.4rem);line-height:1.08}
+.hero p{font-size:clamp(1rem,1.5vw,1.35rem);line-height:1.55;max-width:680px;margin:28px 0}
+.btns{gap:20px}
+.btn{padding:14px 32px;font-size:18px;border-radius:10px;font-family:var(--sans);box-shadow:5px 5px 0 var(--shadow)}
+.tag{margin-top:36px;font-size:18px;padding:12px 26px;rotate:-5deg;font-family:var(--sans);font-weight:700}
+.hero .blob-wrap{flex:1 1 420px;max-width:520px}
+.blob-shape path{fill:var(--fg)}
+[data-theme=dark] .blob-shape path{stroke:none}
+.blob-pill{left:15%;justify-content:flex-start;padding-left:10px;font-size:clamp(12px,1.6vw,20px)}
+@media(max-width:760px){.pill{padding:6px 14px;font-size:14px}.nav{padding:10px 4vw}.hero{padding:6vh 5vw}.theme{width:38px;height:38px}}
