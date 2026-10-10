@@ -47,14 +47,10 @@ export default async function handler(req: any, res: any) {
       }),
     });
     const data: any = await r.json();
-        if (!r.ok) {
-      console.error("Gemini error:", r.status, JSON.stringify(data));
-      return res.status(502).json({ error: "The assistant is unavailable right now." });
-    }
+    if (!r.ok) return res.status(502).json({ error: "The assistant is unavailable right now." });
     const text = (data.candidates?.[0]?.content?.parts || []).map((p: any) => p.text || "").join("").trim();
     return res.status(200).json({ reply: text || "Sorry, I could not answer that. Please email gdso@rknec.edu." });
-    } catch (e) {
-    console.error("chat failed:", e);
+  } catch {
     return res.status(502).json({ error: "The assistant is unavailable right now." });
   }
 }
