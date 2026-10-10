@@ -188,3 +188,11 @@ h1{font-size:clamp(2.4rem,6vw,5.8rem)}
 .upill{background:var(--box);color:var(--box-fg);border-color:var(--box-line)}
 .hero .btn{background:var(--box);color:var(--box-fg);border-color:var(--box-line);box-shadow:5px 5px 0 var(--box-shadow)}
 .hero .btn:hover{box-shadow:2px 2px 0 var(--box-shadow)}
+
+/* shapes as in the Figma */
+.blob-wrap .blob{aspect-ratio:368/256}.hero .blob-wrap{max-width:560px}
+.blob-pill{left:21.7%;width:57.6%;top:45.7%;height:10%;justify-content:center;padding-left:0}
+.ev-new{position:relative}
+.ev-new::before{content:"";position:absolute;left:-13px;top:calc(50% - 13px);width:26px;height:26px;border-radius:50%;background:var(--bg);border:2px solid var(--box-line)}
+.ev-new h3{padding-bottom:12px;margin-bottom:6px;border-bottom:2px dotted rgba(0,0,0,.35)}
+.confetti{display:block;height:auto;overflow:visible;width:calc(100% + 8vw);margin:20px -4vw 0}

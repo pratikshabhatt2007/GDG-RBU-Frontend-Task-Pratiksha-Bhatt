@@ -71,7 +71,7 @@ function Hero() {
       </div>
       <div className="blob-wrap" data-parallax-layer="2">
           <div className="blob" aria-hidden="true">
-            <svg className="blob-shape" viewBox="0 0 500 500"><path d="M259,0H430Q500,0 500,70V305Q500,375 430,375H368Q313,375 313,430Q313,500 243,500H70Q0,500 0,430V195Q0,125 70,125H134Q189,125 189,70Q189,0 259,0Z" /></svg>
+            <svg className="blob-shape" viewBox="0 0 368 256"><path d="M190,0H340Q368,0 368,28V170Q368,198 340,198H294Q272,198 272,220V228Q272,256 244,256H28Q0,256 0,228V84Q0,56 28,56H140Q162,56 162,34V28Q162,0 190,0Z" /></svg>
             <span className="blob-pill"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#999" strokeWidth="1.5"><circle cx="5" cy="5" r="3.5" /><path d="M8 8l3 3" /></svg>gdgr</span>
           </div>
         </div>
@@ -125,7 +125,7 @@ function Team() {
 }
 
 function Faqs() {
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState<number | null>(null);
   return (
     <section id="faqs" className="faqs reveal">
       <h2>FAQs</h2>
@@ -166,7 +166,22 @@ function Footer() {
           </div>
         </div>
       </div>
-      <div className="confetti" aria-hidden="true">{Array.from({ length: 14 }, (_, i) => <i key={i} />)}</div>
+      <svg className="confetti" viewBox="0 0 1000 160" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <circle cx="-5" cy="95" r="45" fill="#EA4335" />
+        <rect x="55" y="55" width="190" height="48" rx="3" fill="#34A853" transform="rotate(28 150 79)" />
+        <circle cx="120" cy="165" r="75" fill="#FBBC04" />
+        <path d="M180 160A55 55 0 0 1 290 160Z" fill="#4285F4" />
+        <rect x="215" y="40" width="46" height="46" fill="#FBBC04" transform="rotate(45 238 63)" />
+        <rect x="330" y="30" width="34" height="130" fill="#EA4335" transform="rotate(-22 347 95)" />
+        <circle cx="440" cy="110" r="68" fill="#FBBC04" />
+        <rect x="520" y="55" width="105" height="105" fill="#34A853" transform="rotate(45 572 107)" />
+        <path d="M650 160A70 70 0 0 1 790 160Z" fill="#4285F4" />
+        <path d="M700 160V70A90 90 0 0 1 790 160Z" fill="#EA4335" />
+        <circle cx="835" cy="85" r="32" fill="#FBBC04" />
+        <circle cx="880" cy="125" r="20" fill="#EA4335" />
+        <rect x="880" y="20" width="150" height="40" fill="#34A853" transform="rotate(-50 955 40)" />
+        <path d="M930 165A75 75 0 0 1 1060 165Z" fill="#4285F4" />
+      </svg>
       <p className="credit">Built by <a href="#home"><strong>Pratiksha Bhatt</strong></a> for GDG RBU Recruitment 2026-27</p>
     </footer>
   );
