@@ -50,7 +50,18 @@ export default function AskGDG() {
       }
       if (!acc) setMsgs([...next, { role: "assistant", content: "Sorry, I could not answer that. Please email gdso@rknec.edu." }]);
     } catch {
-      setMsgs([...next, { role: "assistant", content: "Cannot reach the assistant. Please email gdso@rknec.edu." }]);
+      // streaming failed: retry once without streaming
+      try {
+        const r2 = await fetch("/api/chat?stream=0", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: next.slice(-8) }),
+        });
+        const d = await r2.json();
+        setMsgs([...next, { role: "assistant", content: d.reply || d.error || "Something went wrong." }]);
+      } catch {
+        setMsgs([...next, { role: "assistant", content: "Cannot reach the assistant. Please email gdso@rknec.edu." }]);
+      }
     } finally { setBusy(false); }
   }
 

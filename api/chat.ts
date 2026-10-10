@@ -40,6 +40,9 @@ export default async function handler(req: any, res: any) {
   if (!contents.length || contents[contents.length - 1].role !== "user")
     return res.status(400).json({ error: "Send a question." });
 
+  const wantStream = req.query?.stream !== "0";
+  let out = "";
+  const emit = (t: string) => { if (wantStream) res.write(t); else out += t; };
   const open = (model: string, thinking: object | null) =>
     fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse`, {
       method: "POST",
@@ -68,10 +71,12 @@ export default async function handler(req: any, res: any) {
       }
       good = { model: p.model, thinking };
       // stream the answer to the browser as it is generated
-      res.status(200);
-      res.setHeader("Content-Type", "text/plain; charset=utf-8");
-      res.setHeader("Cache-Control", "no-cache, no-transform");
-      res.setHeader("X-Accel-Buffering", "no");
+      if (wantStream) {
+        res.status(200);
+        res.setHeader("Content-Type", "text/plain; charset=utf-8");
+        res.setHeader("Cache-Control", "no-cache, no-transform");
+        res.setHeader("X-Accel-Buffering", "no");
+      }
       const reader = r.body.getReader();
       const dec = new TextDecoder();
       let buf = "";
@@ -87,12 +92,12 @@ export default async function handler(req: any, res: any) {
           try {
             const j = JSON.parse(line.slice(5));
             const t = (j.candidates?.[0]?.content?.parts || []).map((x: any) => x.text || "").join("");
-            if (t) { res.write(t); sent = true; }
+            if (t) { emit(t); sent = true; }
           } catch { /* ignore partial line */ }
         }
       }
-      if (!sent) res.write("Sorry, I could not answer that. Please email gdso@rknec.edu.");
-      return res.end();
+      if (!sent) emit("Sorry, I could not answer that. Please email gdso@rknec.edu.");
+      return wantStream ? res.end() : res.status(200).json({ reply: out });
     } catch (e) {
       console.error(`Gemini ${p.model} request failed`, e);
       good = null;
