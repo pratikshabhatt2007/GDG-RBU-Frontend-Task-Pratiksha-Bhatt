@@ -1,7 +1,16 @@
-import { useEffect, useState } from "react";
+import { Component, useEffect, useState, type ReactNode } from "react";
 import AskGDG from "./components/AskGDG";
 import DataRain from "./components/ui/data-rain";
 import { ParallaxComponent } from "./components/ui/parallax-scrolling";
+
+/* decorative effects must never be able to blank the whole page */
+class Safe extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  componentDidCatch(e: unknown) { console.error("Effect disabled:", e); }
+  render() { return this.state.failed ? null : this.props.children; }
+}
+
 
 /* TODO: replace placeholders with real content/assets from Figma */
 const LIGHT_PALETTE = { calm: "#0891b2", mid: "#6d28d9", hot: "#db2777" };
@@ -203,8 +212,8 @@ export default function App() {
   }, []);
   return (
     <>
-      <DataRain key={theme} palette={theme === "dark" ? undefined : LIGHT_PALETTE} />
-      {!reduced && <ParallaxComponent />}
+      <Safe><DataRain key={theme} palette={theme === "dark" ? undefined : LIGHT_PALETTE} /></Safe>
+      {!reduced && <Safe><ParallaxComponent /></Safe>}
       <a className="skip" href="#main">Skip to content</a>
       <Header theme={theme} toggle={() => { const t = theme === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = t; setTheme(t); }} />
       <main id="main"><Hero /><Events /><Team /><Faqs /></main>
