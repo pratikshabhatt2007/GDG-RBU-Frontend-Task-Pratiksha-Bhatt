@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { localAnswer } from "./localAnswers";
 
 type Msg = { role: "user" | "assistant"; content: string };
 const SUGGESTIONS = ["How do I join GDG?", "When is the next event?", "How can I reach you?"];
@@ -20,10 +21,20 @@ export default function AskGDG() {
 
   useEffect(() => { endRef.current?.scrollIntoView({ block: "end" }); }, [msgs, busy]);
   useEffect(() => { if (open) inputRef.current?.focus(); }, [open]);
+  const warmed = useRef(false);
+  useEffect(() => { // wake the server function while the visitor is typing
+    if (open && !warmed.current) { warmed.current = true; fetch("/api/chat").catch(() => {}); }
+  }, [open]);
 
   async function send(text: string) {
     const q = text.trim();
     if (!q || busy) return;
+    const instant = localAnswer(q);
+    if (instant) { // common questions are answered immediately, no network
+      setMsgs([...msgs, { role: "user", content: q }, { role: "assistant", content: instant }]);
+      setInput("");
+      return;
+    }
     const next: Msg[] = [...msgs, { role: "user", content: q }];
     setMsgs(next); setInput(""); setBusy(true);
     try {
