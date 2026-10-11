@@ -12,7 +12,8 @@ Frontend Web Developer task for the **GDG RBU Recruitment 2026–27**. A respons
 
 ![GDG RBU Website — Desktop Dark Mode](https://github.com/user-attachments/assets/07dc98b4-0d09-4db8-aaee-012bbfdcbe07)
 
-Desktop — Light Mode
+### Desktop — Light Mode
+
 <img width="1917" height="907" alt="image" src="https://github.com/user-attachments/assets/51f4bb47-5742-4b72-a5eb-ab3f196a85a1" />
 
 ## Features
