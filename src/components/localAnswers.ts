@@ -1,12 +1,10 @@
 // Instant answers for the most common questions (no network, no waiting).
 // Anything not matched here is sent to the Gemini-powered /api/chat function.
-const LINK = "https://gdg.community.dev/gdg-on-campus-ramdeobaba-university-nagpur-india";
-
 const RULES: [RegExp, string][] = [
   [/^(hi+|hello|hey+|good (morning|afternoon|evening))\b[\s!.]*$/,
     "Hi! 👋 I'm Ask GDG. I can help with joining GDG RBU, our events, the team and contact details. What would you like to know?"],
   [/\b(join|joining|member(ship)?|become a|enrol|enroll|recruit|apply|sign ?up)\b/,
-    `Hey there! 🚀 Joining GDG RBU is easy. Here's how to get started:\n\n1. Open our chapter page on the GDG platform: ${LINK} and press the "Join us" button.\n2. Keep an eye on the Events section on this site and register for the upcoming GDG Orientation (Oct 7, 2026, 3:00 PM).\n3. Have a question? Email us at gdso@rknec.edu.\n\nWe'd love to have you with us! Ask me anything else. 😊`],
+    `Hey there! 🚀 Joining GDG RBU is easy. Here's how to get started:\n\n1. Find our chapter on the GDG community platform by searching for "GDG on Campus RamdeoBaba University" and press the "Join us" button.\n2. Keep an eye on the Events section on this site and register for the upcoming GDG Orientation (Oct 7, 2026, 3:00 PM).\n3. Have a question? Email us at gdso@rknec.edu.\n\nWe'd love to have you with us! Ask me anything else. 😊`],
   [/(related to google|affiliat|run by google|owned by google|part of google|official)/,
     "GDG RBU is a university-based community group for students interested in Google developer technologies. 🙂 It is an independent student community and is not run by Google. We learn together through workshops, tech talks, hackathons and real-world projects. Want to know how to join?"],
   [/\b(contact|email|e-mail|mail|reach|address|location|located|venue|where)\b/,
